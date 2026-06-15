@@ -1,0 +1,44 @@
+#!/bin/bash
+# file path: scripts/build.sh
+# start this script on project directory
+# run : sh scripts/build.sh
+
+set -euo pipefail # exit on error
+
+:: GO SETUP
+
+go mod init github.com/Mefamex/CHIMERA2
+go get gopkg.in/yaml.v3
+go get github.com/gofiber/fiber/v2
+go get github.com/gofiber/websocket/v2
+
+
+
+:: PYTHON RUNTIME SETUP
+
+mkdir -p runtimes/python
+cd runtimes/python
+python -m venv .venv
+# shellcheck source=/dev/null
+# current path is runtimes/python
+source .venv/bin/activate
+python -m pip install --upgrade pip setuptools wheel requests
+deactivate
+cd ../..
+
+# echo "Çekilecek third-party var mı? Şimdi indiriliyor..."
+# bash scripts/download_third_party.sh
+
+
+# mkdir -p runtimes/node-v25.4.0
+# cd runtimes/node-v25.4.0
+# pnpm init
+# pnpm add puppeteer socket.io-client
+# cd ../..
+
+# sudo pacman -S xorg-server-devel libxcursor libxrandr libxinerama libxi
+# cd ../cmd/log-gui
+# go mod init log-gui
+# go install .
+# go mod tidy
+# cd ../..
